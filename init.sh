@@ -5,22 +5,20 @@
 # Modified by Craig Miller
 # December 2018
 
-VERSION="0.91"
+VERSION="0.92"
 
-# make devices
-mknod -m 666 /dev/zero c 1 5
-mknod -m 666 /dev/full c 1 7
-mknod -m 666 /dev/random c 1 8
-mknod -m 666 /dev/urandom c 1 9
-mknod -m 666 /dev/null c 1 3
 
-# unmount /dev/pts in order to make nodes for ssh access
-umount /dev/pts
-# make pts devices (for ssh)
-mknod -m 666 /dev/pts/0 c 136 0
-mknod -m 666 /dev/pts/1 c 136 1
-# remount /dev/pts now that nodes are made
-mount -t devpts -o rw,nosuid,noexec,relatime,mode=600,ptmxmode=000 devpts /dev/pts
+# 8 May 2019
+#
+# gjedeer found a simpler way to get openwrt to complete the boot process
+#
+#   
+#
+
+
+# mount /dev
+mount -t devtmpfs devtmpfs /dev
+
 
 # wait, let things startup
 echo "waiting for rest of boot up..."
@@ -30,7 +28,9 @@ do
   sleep 1
 done
 
-
+#
+# Firewall should start normally, but keeping this in the script for now 
+#    until more testing can be done
 
 # kick iptables, so firewall will start 
 ip6tables -L
