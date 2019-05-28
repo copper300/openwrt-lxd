@@ -375,9 +375,9 @@ The `init.sh` script has been tested with LXD 3.0.2 and OpenWrt 18.06.1 on a Ras
 
 Not everything is perfect, even in the virtual world. There are some limitations to running OpenWrt in a Linux Container.
 
-* ssh is tricky. Must use the `ssh root@<router addr>  "/bin/sh" -i`
-	* And after logging in, you will get an error about the tty. Full screen apps like `vi` are difficult to use.
-	* But you can use scp, rsync, and run non-interactive commands with ssh.
+* As of version 0.93, ssh if fixed. Login via ssh normally `ssh root@<router addr>`
+	* Prior to v0.93, ssh is tricky. Must use the `ssh root@<router addr>  "/bin/sh" -i` 
+	* But you can continue to use scp, rsync, and run non-interactive commands with ssh.
 
 * `init.sh` doesn't run at boot. Haven't figured out how to do this yet, since the boot stalls very early in the process.
 
