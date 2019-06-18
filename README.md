@@ -51,13 +51,13 @@ Using `lxc image import` an image can pulled into LXD. The steps are:
 
 #### Getting OpenWrt rootfs
 
-The OpenWrt project not only provides squashfs and ext4 images, but also simple tar.gz files of the rootfs. The current release is 18.06.1, and I recommend starting with it.
+The OpenWrt project not only provides squashfs and ext4 images, but also simple tar.gz files of the rootfs. The current release is 18.06.2, and I recommend starting with it.
 
-The **ARM-virt** rootfs tarball can be found at [OpenWrt](https://archive.openwrt.org/releases/18.06.1/targets/armvirt/32/)
+The **ARM-virt** rootfs tarball can be found at [OpenWrt](https://downloads.openwrt.org/releases/18.06.2/targets/armvirt/32/)
 
-Download the OpenWrt 18.06.1 [rootfs tarball for Arm](https://archive.openwrt.org/releases/18.06.1/targets/armvirt/32/openwrt-18.06.1-armvirt-32-default-rootfs.tar.gz).
+Download the OpenWrt 18.06.2 [rootfs tarball for Arm](https://downloads.openwrt.org/releases/18.06.2/targets/armvirt/32/openwrt-18.06.2-armvirt-32-default-rootfs.tar.gz).
 
-The **x86** rootfs is [here](https://archive.openwrt.org/releases/18.06.1/targets/x86/generic/) 
+The **x86** rootfs is [here](https://downloads.openwrt.org/releases/18.06.2/targets/x86/generic/) 
  
 
 #### Create a `metadata.yaml` file
@@ -137,9 +137,9 @@ lxc config edit router
 architecture: armv7l
 config:
   image.architecture: armhf
-  image.description: 'OpenWrt 18.06.1 from armvirt/32 '
+  image.description: 'OpenWrt 18.06.2 from armvirt/32 '
   image.os: openwrt
-  image.release: 18.06.1
+  image.release: 18.06.2
   raw.lxc: lxc.apparmor.profile=unconfined
   security.privileged: "true"
   volatile.base_image: eae3ea75333699a733ecb9f1e134fdad99e44416a4757e372ecc6950b2de3bfa
@@ -368,18 +368,18 @@ In order to permit access to webservers, a firewall rule on the virtual OpenWrt 
 
 ### OpenWrt LXD testing
 
-The `init.sh` script has been tested with LXD 3.0.2 and OpenWrt 18.06.1 on a Raspberry Pi 3B & 3B+ running 4.15.0-1029-raspi2 #31-Ubuntu
+The `init.sh` script has been tested with LXD 3.0.2 and OpenWrt 18.06.2 on a Raspberry Pi 3B & 3B+ running 4.15.0-1030-raspi2 #31-Ubuntu
 
 
 ### Limitations
 
 Not everything is perfect, even in the virtual world. There are some limitations to running OpenWrt in a Linux Container.
 
-* As of version 0.93, ssh if fixed. Login via ssh normally `ssh root@<router addr>`
+* As of version 0.93, ssh if fixed (on Pi 3B+). Login via ssh normally `ssh root@<router addr>`
 	* Prior to v0.93, ssh is tricky. Must use the `ssh root@<router addr>  "/bin/sh" -i` 
 	* But you can continue to use scp, rsync, and run non-interactive commands with ssh.
 
-* `init.sh` doesn't run at boot. Haven't figured out how to do this yet, since the boot stalls very early in the process.
+* `init.sh` doesn't run at boot. Haven't figured out how to do this yet, since the boot stalls very early in the process. (it is reported that in the next version of OpenWrt, `procd` will fix this problem, and `init.sh` will no longer be unnecessary) 
 
 * Container will not **stop** via the `lxc stop` command. You must use:
 	* `lxc stop --force router` or
@@ -393,7 +393,7 @@ Not everything is perfect, even in the virtual world. There are some limitations
 
 ### Contributors
 
-Thanks to **melato** for pointing me on the right path. All current code by Craig Miller cvmiller at gmail dot com. But ideas, and ports to other embedded platforms beyond the Raspberry Pi are welcome.
+Thanks to **melato** for pointing me on the right path. Thanks also to **gjedeer** for the ssh fix. All current code by Craig Miller cvmiller at gmail dot com. But ideas, and ports to other embedded platforms beyond the Raspberry Pi are welcome.
 
 ### License
 
