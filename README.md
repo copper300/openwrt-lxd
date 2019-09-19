@@ -10,6 +10,20 @@ This does not require rebuilding or compiling. Because of that, it should suppor
 
 ![Virtual Network](https://raw.githubusercontent.com/cvmiller/openwrt-lxd/master/figures/lxc_network_openwrt.png)
 
+#### Update: 19.07 release no longer requires `init.sh`
+
+Although OpenWrt 19.07 has not been released (as of Sept 2019), it is possible to run a 19.07 snapshot image in LXD. OpenWrt makes **armvirt** snapshots available. Download the [armvirt32 snapshot](https://downloads.openwrt.org/snapshots/targets/armvirt/32/), and create an LXD image following the steps below.
+
+19.07 fixes the procd bug which prevented OpenWrt from fully booting. Therefore, `init.sh` script is no longer required to run OpenWrt in LXD containers.
+
+The snapshot does not include the web-based LuCI management tool. To install LuCI with `opkg`:
+
+```
+opkg update
+opkg install luci
+```
+
+
 ### Benefits of using OpenWrt & LXD
 
 The benefits of a virtual OpenWrt Router are:
