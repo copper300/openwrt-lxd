@@ -5,7 +5,7 @@
 # Modified by Craig Miller
 # December 2018
 
-VERSION="0.93"
+VERSION="0.94"
 
 usage() {
                echo "	$0 - complete LXD OpenWrt boot  "
@@ -65,8 +65,14 @@ done
 
 
 # kick iptables, so firewall will start 
-ip6tables -L
-iptables -L
+ip6tables -L >/dev/null
+iptables -L >/dev/null
+
+# added all IPv4 tables by laigor
+for tt in nat mangle raw ; do
+   /usr/sbin/ip6tables -t ${tt} -L >/dev/null
+   /usr/sbin/iptables -t ${tt} -L >/dev/null
+done
 
 echo "Restarting Firewall"
 # clear and restart firewall
@@ -76,7 +82,7 @@ echo "Restarting Firewall"
 #ip6tables -L
 
 
-# insert NAT44 iptables rule, firewall fails to insert this rule
+# insert NAT44 iptables rule if using IPv4, firewall fails to insert this rule
 WAN=$(uci get network.wan.ifname)
 if [ $(uci get firewall.@zone[1].masq) -eq 1 ]; then
     echo "Enabling IPv4 NAT"
